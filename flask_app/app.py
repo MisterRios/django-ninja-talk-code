@@ -55,7 +55,7 @@ with app.app_context():
     db.create_all()
 
 
-@app.route("/api/book/<int:id>")
+@app.route("/api/books/<int:id>")
 def get_single_book(id):
     book = db.get_or_404(Book, id)
     book_dict = {
@@ -63,7 +63,10 @@ def get_single_book(id):
         "title": book.title,
         "price": book.price,
         "summary": book.summary,
-        "author": book.author.full_name,
+        "author": {
+            "id": book.author.id,
+            "full_name": book.author.full_name,
+        },
     }
     return jsonify(book_dict)
 
