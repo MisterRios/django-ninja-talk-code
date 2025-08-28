@@ -3,7 +3,7 @@ from ninja import ModelSchema
 
 
 class AuthorSchema(ModelSchema):
-    full_name: str = Author.full_name
+    full_name: str
 
     class Meta:
         model = Author
