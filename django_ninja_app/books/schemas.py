@@ -16,24 +16,3 @@ class BookSchema(ModelSchema):
     class Meta:
         model = Book
         fields = ["id", "title", "price", "summary", "author"]
-
-
-# from pydantic.json import pydantic_encoder
-# from pydantic import BaseModel
-# class AuthorPublic(BaseModel)
-# id: int
-# first_name: str
-# last_name: str
-# full_name: str
-#
-# def json(self, **kwargs):
-#     dict_data = self.dict()
-#     dict_data["full_name"] = f"{self.first_name} {self.last_name}"
-#     return pyjson.dumps(dict_data, default=pydantic_encoder, **kwargs)
-
-
-# class BookSchema(BaseModel):
-#     title: str
-#     price: Decimal
-#     summary: str
-#     author: AuthorSchema
