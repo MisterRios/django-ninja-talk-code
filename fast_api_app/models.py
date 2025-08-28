@@ -10,9 +10,14 @@ class Author(AuthorBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     books: list["Book"] = Relationship(back_populates="author")
 
+    @property
+    def full_name(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
 
 class AuthorPublic(AuthorBase):
     id: int
+    full_name: str
 
 
 class BookBase(SQLModel):
