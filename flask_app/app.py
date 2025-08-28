@@ -25,16 +25,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 db.init_app(app)
 
 
-class Book(db.Model):
-    id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[str] = mapped_column(String(255))
-    price: Mapped[float] = mapped_column()
-    summary: Mapped[Optional[str]] = mapped_column(Text)
-
-    author_id: Mapped[int] = mapped_column(ForeignKey("author.id"))
-    author: Mapped["Author"] = relationship(back_populates="book")
-
-
 class Author(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     first_name: Mapped[str] = mapped_column(String(50))
@@ -43,6 +33,16 @@ class Author(db.Model):
     full_name: Mapped[str] = column_property(first_name + " " + last_name)
 
     book: Mapped["Book"] = relationship(back_populates="author")
+
+
+class Book(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(255))
+    price: Mapped[float] = mapped_column()
+    summary: Mapped[Optional[str]] = mapped_column(Text)
+
+    author_id: Mapped[int] = mapped_column(ForeignKey("author.id"))
+    author: Mapped["Author"] = relationship(back_populates="book")
 
 
 class Card(db.Model):
