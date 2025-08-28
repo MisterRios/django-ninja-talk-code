@@ -55,9 +55,7 @@ with app.app_context():
     db.create_all()
 
 
-@app.route("/api/books/<int:id>")
-def get_single_book(id):
-    book = db.get_or_404(Book, id)
+def serialize_book(book):
     book_dict = {
         "id": book.id,
         "title": book.title,
@@ -68,11 +66,19 @@ def get_single_book(id):
             "full_name": book.author.full_name,
         },
     }
-    return jsonify(book_dict)
+    return book_dict
 
 
-@app.route("/api/books")
+@app.route("/api/books/")
 def get_all_books():
     select_statement = db.select(Book).order_by(Book.title)
-    books = db.session.execute(select_statement).scalars()
-    return jsonify(books)
+    books = db.session.execute(select_statement).all()
+
+    # each instance is a tuple with one element
+    return jsonify([serialize_book(book[0]) for book in books])
+
+
+@app.route("/api/books/<int:id>")
+def get_single_book(id):
+    book = db.get_or_404(Book, id)
+    return jsonify(serialize_book(book))
