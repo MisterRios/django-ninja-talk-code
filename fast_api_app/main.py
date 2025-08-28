@@ -21,7 +21,7 @@ def on_startup():
     create_db_and_tables()
 
 
-@app.get("/api/book/{id}", response_model=BookPublic)
+@app.get("/api/books/{id}", response_model=BookPublic)
 async def get_single_book(id):
     with Session(engine) as session:
         statement = select(Book).where(Book.id == id).options(selectinload(Book.author))
